@@ -1,0 +1,343 @@
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import os
+import random
+from requests import get
+import wikipedia
+import webbrowser
+import pywhatkit
+import smtplib
+import sys
+import time
+import pyjokes
+import ctypes
+import pyautogui
+import news_module
+import requests
+import image
+import PIL
+from PIL import Image
+import pandas as pd
+from datetime import datetime
+import subprocess
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+# print(voices[0].id)
+engine.setProperty('voices', voices[0].id)
+
+print("██▓▒░ ►▬ WELCOME ▬◄ ░▒▓██")
+print("        J.A.R.V.I.S         ")
+print("    Patent By   ABHISHEK ")
+
+print("WARNING⚠️THIS IS ONLY CODED FOR ABHI")
+
+
+# text to speech
+def speak(audio):
+    engine.say(audio)
+    print(audio)
+    engine.runAndWait()
+
+
+# speect to text
+def takecommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("I am Listening Sir!")
+        r.pause_threshold = 2
+        audio = r.listen(source)
+
+    try:
+        print("Reconizing...")
+        query = r.recognize_google(audio, language='en-in')
+        print(f"You Said: {query}")
+
+    except Exception as e:
+        speak("Say that again Sir??  Please?")
+        return "none"
+    return query
+
+
+# wish
+def wishme():
+    hour = int(datetime.datetime.now().hour)
+    tt = time.strftime("%I:%M %p")
+
+    if hour >= 0 and hour <= 12:
+        speak(f"Good Morning? Sir! {tt}")
+    elif hour > 12 and hour < 18:
+        speak(f"Good Afternoon? Sir!{tt}")
+    else:
+        speak(f"Good EVENING SIR?{tt}")
+        speak("I am listening")
+
+
+# send to email
+def sendEmail(to, content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('jariscompabhi@gmail.com', 'jarvis@comp123')
+    server.sendmail('jarviscompabhi@gmail.com', to, content)
+    server.close()
+#for zoom meeting
+def ZoomJoin():
+    pyautogui.moveTo(945, 515)
+    pyautogui.click()
+    time.sleep(4)
+    pyautogui.moveTo(1104,487)
+    pyautogui.click()
+    time.sleep(1)
+    pyautogui.moveTo(1073,537)
+    pyautogui.click()
+    pyautogui.moveTo(987,684)
+    pyautogui.click()
+    time.sleep(3)
+    pyautogui.moveTo(860,486)
+    pyautogui.click()
+    pyautogui.press("2")
+    pyautogui.press("4")
+    pyautogui.press("6")
+    pyautogui.press("8")
+    pyautogui.press("6")
+    pyautogui.press("1")
+    pyautogui.moveTo(976,681)
+    pyautogui.click()
+
+# news def
+def news():
+    main_url = "http://newsapi.org/v2/everything?q=bitcoin&from=2020-11-10&sortBy=publishedAt&apiKey=838f42898f614302b90c4ed6433bcddb"
+
+    main_page = requests.get(main_url).json()
+    # print main page
+    articles = main_page["articles"]
+    # print articles
+    head = []
+    day = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
+    for ar in articles:
+        head.append(ar["title"])
+    for i in range(len(day)):
+        speak(f"today's {day[i]} news is: , {head[i]}")
+
+
+if __name__ == "__main__":
+
+    while True:
+        query = takecommand().lower()
+
+        # logic building for task
+        # Notepad
+        if "open notepad" in query:
+            npath = "C:\\WINDOWS\\system32\\notepad.exe"
+            os.startfile(npath)
+
+        elif "open my virtual phone" in query or "please open my virtual phone" in query:
+            apath = "C:\\Program Files\\BlueStacks\\Bluestacks.exe"
+            os.startfile(apath)
+
+        elif "open chrome" in query or "open google chrome" in query:
+            gpath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            os.startfile(gpath)
+        elif "open zoom" in query or "join zoom meeting" in query or "zoom" in query or "join" in query:
+            zpath = "C:\\Users\\ABHISHEK PATIL\\AppData\\Roaming\\Zoom\\bin\\Zoom.exe"
+            os.startfile(zpath)
+            speak("At Your Service Sir?  JOINING ZOOM MEETING FOR YOU")
+            time.sleep(3)
+            ZoomJoin()
+
+        elif "close meeting" in query or "over meeting" in query:
+            os.system("taskkill /f /im zoom.exe")
+
+
+        elif "open command prompt" in query:
+            os.system("start cmd")
+
+        elif "play some mashup" in query or "play your favourite song j a r v i s" in query or "play your favourite song" in query or "play some music" in query:
+            music_dir = "D:\\musicdir"
+            songs = os.listdir(music_dir)
+            rd = random.choice(songs)
+            os.startfile(os.path.join(music_dir, songs[0]))
+
+        elif "Ip address" in query:
+            ip = get('https://api.ipify.org').text
+            speak(f"your Ip address is {ip}")
+
+        elif "wikipedia" in query:
+            speak("searching wikipedia....")
+            query = query.replace("wikipedia", "")
+            results = wikipedia.summary(query, sentences=2)
+            speak("according to wikipedia")
+            speak(results)
+        # COMMANDS FOR WAKING UP
+        elif "hello jarvis" in query:
+            speak("OOH ,  HEllO  SIR ?")
+        elif "hi buddy" in query:
+            speak("OHH,  HELLO BRO?")
+        elif "hi" in query or "namaste" in query:
+            speak("HII SIR? HOW ARE YOU?")
+        elif "wake up dude" in query or "wake up bro" in query or "wake up bro" in query:
+            speak("AT YOUR SERVICE SIR?")
+        elif "jarvis are you there" in query or "are you there" in query:
+            speak("I am Here SIR?")
+        elif "hello" in query:
+            speak("OOH ,  HEllO  SIR ?")
+
+        # COMMANDS FOR GENERAL TALK
+        elif "do you have a girlfriend" in query or "you have girlfriend" in query:
+            speak("Yes sir, I HAVE MY GRILFRIEND,  HER NAME IS?  FRIDAY ?")
+        elif "who are you" in query or "what are you" in query or "who made you" in query or "who designed you" in query:
+            speak(
+                "I AM ARTIFICIAL INTELLIGENT JARVIS, THANKS TO MASTERMIN  ABHISHEK? WHO DESIGNED ME FOR AS HIS PERSONAL SECRETARY")
+        elif "are you a human being" in query:
+            speak("NO I AM  JARVIS")
+
+        # to set alaram
+        elif "set alarm" in query:
+            nn = int(datetime.datetime.now().hour)
+            if nn == 21:
+                music_dir = "D:\\musicdir"
+                songs = os.listdir(music_dir)
+                os.startfile(os.path.join(music_dir, songs[0]))
+        # joke
+        elif "be funny" in query:
+            joke = pyjokes.get_joke()
+            speak(joke)
+        # to shut down pc
+        elif "shut down the system" in query:
+            os.system("shutdown /s /t 5")
+
+        elif "restart the system" in query:
+            os.system("shutdown /r /t /5")
+
+        elif "sleep the system" in query:
+            os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+
+        elif "lock the system" in query:
+            speak("AlL RIGHT SIR LOCKING THIS PC?")
+            ctypes.windll.user32.LockWorkStatiom()
+        # to switch window
+        elif "switch the window" in query or "switch window" in query:
+            pyautogui.keyDown("alt")
+            pyautogui.press("tab")
+            time.sleep(1)
+            pyautogui.keyUp("alt")
+        # news
+        elif "tell me some news" in query or "what is happening around world" in query:
+            speak("ALL RIGHT SIR?")
+            news()
+        # take screen shot
+        elif "take screenshot" in query or "take a screenshot" in query:
+            speak("SIR , PLEASE TELL ME THE  NAME FOR THIS  SCREENSHOT?")
+            name = takecommand().lower()
+            time.sleep(5)
+            img = pyautogui.screenshot()
+            img.save(f"{name}.png")
+            speak("DONE?")
+
+
+
+        # to open websites
+        elif "open youtube" in query:
+            webbrowser.open("www.youtube.com")
+
+        elif "open facebook" in query:
+            webbrowser.open("www.facebook.com")
+
+        elif "open instagram" in query:
+            webbrowser.open("www.instagram.com")
+
+        elif "open resonance" in query:
+            webbrowser.open("www.resonance.com")
+
+        elif "open amazon" in query:
+            speak("Sir? What Should I Search On AMAZON?")
+            cm = takecommand().lower()
+            webbrowser.open(f"{cm}")
+
+        elif "open flipkart" in query:
+            webbrowser.open("www.flipkart.com")
+
+        elif "open google" in query:
+            speak("Sir? What Should I Search On Google?")
+            cm = takecommand().lower()
+            webbrowser.open(f"{cm}")
+
+        elif "open map" in query:
+            speak("Sir? What Should I Search On MAP?")
+            cm = takecommand().lower()
+            webbrowser.open(f"{cm}")
+
+        elif "open drive" in query:
+            webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
+        # for closing websites and apps
+
+        elif "close my virtual phone" in query or "close virtual phone" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im Bluestacks.exe")
+
+
+        elif "close instagram" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close map" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close youtube" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close facebook" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close resonance" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close amazon" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+
+        elif "close flipkart" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close google" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+
+        elif "close drive" in query:
+            speak("AS YOU WISH SIR?")
+            os.system("taskkill /f /im chrome.exe")
+        # yt songs
+        elif "play song on youtube" in query:
+            speak("Sir? What Should I Search On youtube?")
+            cm = takecommand().lower()
+            pywhatkit.playonyt(f"{cm}")
+
+        elif "email to abhi" in query:
+            try:
+                speak("What Should I Say Sir?")
+                content = takecommand().lower()
+                to = "patilabhishek1695@gmail.com"
+                sendEmail(to, content)
+                speak("Email Has Been Sent Successfully Sir?")
+
+            except Exception as e:
+                print(e)
+                speak("Sorry sir, I Am Unable To Send Mail")
+
+        elif "no thanks" in query or "you can sleep now" in query or "its ok" in query or "i am fine" in query:
+            speak("Okay Sir? I AM JUST ONE CALL AWAY?  IF YOU NEED ME JUST RUN ME? HAVE A GOOD DAY !")
+            sys.exit()
+
+
+
+
+
+
