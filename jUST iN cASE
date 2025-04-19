@@ -29,9 +29,6 @@ engine.setProperty('voices', voices[0].id)
 
 print("██▓▒░ ►▬ WELCOME ▬◄ ░▒▓██")
 print("        J.A.R.V.I.S         ")
-print("    Patent By   ABHISHEK ")
-
-print("WARNING⚠️THIS IS ONLY CODED FOR ABHI")
 
 
 # text to speech
@@ -185,11 +182,6 @@ if __name__ == "__main__":
             speak("OOH ,  HEllO  SIR ?")
 
         # COMMANDS FOR GENERAL TALK
-        elif "do you have a girlfriend" in query or "you have girlfriend" in query:
-            speak("Yes sir, I HAVE MY GRILFRIEND,  HER NAME IS?  FRIDAY ?")
-        elif "who are you" in query or "what are you" in query or "who made you" in query or "who designed you" in query:
-            speak(
-                "I AM ARTIFICIAL INTELLIGENT JARVIS, THANKS TO MASTERMIN  ABHISHEK? WHO DESIGNED ME FOR AS HIS PERSONAL SECRETARY")
         elif "are you a human being" in query:
             speak("NO I AM  JARVIS")
 
